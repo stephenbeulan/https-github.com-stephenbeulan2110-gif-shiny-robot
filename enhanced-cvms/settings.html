@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - VaxTracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 2rem;
+            padding: 0;
+        }
+
+        .settings-tab {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .settings-tab:hover {
+            color: #1f2937;
+        }
+
+        .settings-tab.active {
+            color: #7c3aed;
+        }
+
+        .settings-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #7c3aed;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .settings-form {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .form-group p {
+            margin: 0.5rem 0 0;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .form-actions button {
+            flex: 1;
+        }
+
+        .settings-list {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .settings-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item-content h4 {
+            margin: 0 0 0.5rem;
+            color: #1f2937;
+        }
+
+        .settings-item-content p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            background: #d1d5db;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #7c3aed;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: calc(100% - 26px);
+        }
+
+        .alert-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #0c4a6e;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #78350f;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #7f1d1d;
+            border-left: 4px solid #ef4444;
+        }
+
+        .danger-zone {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .danger-zone h3 {
+            color: #7f1d1d;
+            margin-top: 0;
+        }
+
+        .danger-zone p {
+            color: #7f1d1d;
+        }
+
+        .info-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-syringe"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="vaccinations.html">Vaccinations</a>
+                    <a href="settings.html" class="active">Settings</a>
+                </nav>
+                <div class="user-menu">
+                    <span id="userName">User</span>
+                    <button class="btn btn-sm btn-ghost" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="settings-container">
+                <h1 style="margin-bottom: 2rem;">Settings</h1>
+
+                <div class="alert-success" id="successAlert" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Changes saved successfully!
+                </div>
+
+                <!-- Settings Tabs -->
+                <div class="settings-tabs">
+                    <button class="settings-tab active" onclick="switchTab('account')">
+                        <i class="fas fa-user"></i> Account
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('notifications')">
+                        <i class="fas fa-bell"></i> Notifications
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('privacy')">
+                        <i class="fas fa-lock"></i> Privacy
+                    </button>
+                    <button class="settings-tab" onclick="switchTab('system')">
+                        <i class="fas fa-cog"></i> System
+                    </button>
+                </div>
+
+                <!-- Account Tab -->
+                <div id="account-tab" class="settings-section active">
+                    <div class="settings-form">
+                        <h2 style="margin-top: 0;">Account Settings</h2>
+
+                        <div class="form-group">
+                            <label>Profile Picture</label>
+                            <div class="avatar-upload">
+                                <div class="avatar-preview">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-secondary" onclick="document.getElementById('avatarInput').click()">
+                                        Change Avatar
+                                    </button>
+                                    <input type="file" id="avatarInput" style="display: none;" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <form onsubmit="saveAccountSettings(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" value="John">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" value="Doe">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" value="john@example.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" placeholder="Enter your address">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" placeholder="Enter city">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="state">State/Province</label>
+                                    <input type="text" id="state" placeholder="Enter state">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country</label>
+                                    <input type="text" id="country" placeholder="Enter country">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+                            <h3>Change Password</h3>
+                            <form onsubmit="changePassword(event)">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" required>
+                                    <p>Must be at least 8 characters long</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" required>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications Tab -->
+                <div id="notifications-tab" class="settings-section">
+                    <div class="settings-form">
+                        <h2 style="margin-top: 0;">Notification Preferences</h2>
+
+                        <div class="settings-list">
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Email Notifications</h4>
+                                    <p>Receive updates about vaccinations and appointments via email</p>
+                                </div>
+                                <div class="toggle-switch active" id="emailToggle" onclick="toggleNotification(this)"></div>
+                            </div>
+
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Vaccination Reminders</h4>
+                                    <p>Get reminded when vaccinations are approaching</p>
+                                </div>
+                                <div class="toggle-switch active" id="reminderToggle" onclick="toggleNotification(this)"></div>
+                            </div>
+
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Appointment Confirmations</h4>
+                                    <p>Receive confirmation emails for scheduled appointments</p>
+                                </div>
+                                <div class="toggle-switch active" id="appointmentToggle" onclick="toggleNotification(this)"></div>
+                            </div>
+
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Health Tips & News</h4>
+                                    <p>Receive health-related tips and vaccination news</p>
+                                </div>
+                                <div class="toggle-switch" id="newsToggle" onclick="toggleNotification(this)"></div>
+                            </div>
+
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Weekly Summary</h4>
+                                    <p>Get a weekly summary of all activities and upcoming appointments</p>
+                                </div>
+                                <div class="toggle-switch active" id="summaryToggle" onclick="toggleNotification(this)"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+                            <h3>Notification Times</h3>
+                            <div class="form-group">
+                                <label for="notificationTime">Preferred notification time</label>
+                                <input type="time" id="notificationTime" value="09:00">
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn btn-primary" onclick="saveNotificationSettings()">Save Preferences</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Tab -->
+                <div id="privacy-tab" class="settings-section">
+                    <div class="settings-form">
+                        <h2 style="margin-top: 0;">Privacy & Security</h2>
+
+                        <div class="settings-list">
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Two-Factor Authentication</h4>
+                                    <p>Add extra security to your account</p>
+                                </div>
+                                <div class="toggle-switch" id="twoFactorToggle" onclick="toggleSetting(this)"></div>
+                            </div>
+
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Data Encryption</h4>
+                                    <p>Encrypt all sensitive health data</p>
+                                </div>
+                                <div class="toggle-switch active" id="encryptionToggle" onclick="toggleSetting(this)"></div>
+                            </div>
+
+                            <div class="settings-item">
+                                <div class="settings-item-content">
+                                    <h4>Activity Logging</h4>
+                                    <p>Log all account activities for security</p>
+                                </div>
+                                <div class="toggle-switch active" id="loggingToggle" onclick="toggleSetting(this)"></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+                            <h3>Active Sessions</h3>
+                            <div class="settings-item" style="border: 1px solid #e5e7eb; border-radius: 0.5rem; margin-bottom: 1rem;">
+                                <div>
+                                    <p style="margin: 0;"><strong>Current Session</strong></p>
+                                    <p style="color: #6b7280; margin: 0.5rem 0 0;">Linux • Chrome • Last active: now</p>
+                                </div>
+                                <p style="color: #6b7280;">Current</p>
+                            </div>
+
+                            <button class="btn btn-secondary" style="width: 100%;">
+                                <i class="fas fa-sign-out-alt"></i> Logout from all other sessions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Tab -->
+                <div id="system-tab" class="settings-section">
+                    <div class="settings-form">
+                        <h2 style="margin-top: 0;">System Settings</h2>
+
+                        <div class="form-group">
+                            <label for="theme">Theme</label>
+                            <select id="theme">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="auto">Auto (system default)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="language">Language</label>
+                            <select id="language">
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="pt">Portuguese</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateFormat">Date Format</label>
+                            <select id="dateFormat">
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone">
+                                <option value="UTC">UTC</option>
+                                <option value="EST">Eastern Standard Time</option>
+                                <option value="CST">Central Standard Time</option>
+                                <option value="MST">Mountain Standard Time</option>
+                                <option value="PST">Pacific Standard Time</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-primary" onclick="saveSystemSettings()">Save Settings</button>
+                        </div>
+
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
+                            <h3>Data Management</h3>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 1rem;">
+                                <i class="fas fa-download"></i> Export All Data
+                            </button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 1rem;">
+                                <i class="fas fa-upload"></i> Import Data
+                            </button>
+
+                            <div class="danger-zone">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                                <p>These actions are permanent and cannot be undone.</p>
+                                <button class="btn btn-danger" style="width: 100%; margin-bottom: 1rem;">
+                                    <i class="fas fa-trash"></i> Clear Cache
+                                </button>
+                                <button class="btn btn-danger" style="width: 100%; margin-bottom: 1rem;" onclick="deleteAccount()">
+                                    <i class="fas fa-user-slash"></i> Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName');
+            if (!userName) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = userName;
+            const [firstName, lastName] = userName.split(' ');
+            if (firstName) document.getElementById('firstName').value = firstName;
+            if (lastName) document.getElementById('lastName').value = lastName;
+        });
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.settings-section').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.settings-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        function saveAccountSettings(event) {
+            event.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            localStorage.setItem('userName', firstName + ' ' + lastName);
+            showSuccessAlert();
+        }
+
+        function changePassword(event) {
+            event.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                alert('Password must be at least 8 characters long!');
+                return;
+            }
+
+            localStorage.setItem('userPassword', newPassword);
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            showSuccessAlert();
+        }
+
+        function toggleNotification(element) {
+            element.classList.toggle('active');
+        }
+
+        function toggleSetting(element) {
+            element.classList.toggle('active');
+        }
+
+        function saveNotificationSettings() {
+            showSuccessAlert();
+        }
+
+        function saveSystemSettings() {
+            showSuccessAlert();
+        }
+
+        function showSuccessAlert() {
+            const alert = document.getElementById('successAlert');
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        function deleteAccount() {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+                    localStorage.clear();
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CVMS</title>
+    <meta name="description" content="Login to Child Vaccination Management System">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <!-- Scripts -->
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/darkmode.js"></script>
+    <script src="assets/js/auth.js"></script>
+</head>
+<body class="auth-page">
+    <!-- Header -->
+    <header class="header header-simple">
+        <nav class="nav">
+            <div class="nav-brand">
+                <img src="assets/images/logo.svg" alt="CVMS Logo" class="nav-logo" onerror="this.style.display='none'">
+                <span class="nav-title">CVMS</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="signup.html" class="btn btn-secondary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Sign in to your CVMS account</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username or Email</label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-input"
+                            placeholder="Enter your username or email"
+                            required
+                            autocomplete="username"
+                        >
+                        <div class="form-error" id="usernameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="password-input-container">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input"
+                                placeholder="Enter your password"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Toggle password visibility"
+                            >
+                                👁️
+                            </button>
+                        </div>
+                        <div class="form-error" id="passwordError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="btn-spinner" id="loginSpinner" style="display: none;"></div>
+                    </button>
+                </form>
+
+                <!-- Additional Links -->
+                <div class="auth-links">
+                    <a href="#" id="forgotPasswordLink" class="auth-link">Forgot your password?</a>
+                </div>
+
+                <!-- Demo Accounts -->
+                <div class="demo-accounts">
+                    <h3 class="demo-title">Demo Accounts</h3>
+                    <div class="demo-grid">
+                        <div class="demo-account">
+                            <div class="demo-role">Admin</div>
+                            <div class="demo-credentials">
+                                <div class="demo-username">admin</div>
+                                <div class="demo-password">admin123</div>
+                            </div>
+                        </div>
+                        <div class="demo-account">
+                            <div class="demo-role">Hospital</div>
+                            <div class="demo-credentials">
+                                <div class="demo-username">hospital1</div>
+                                <div class="demo-password">hospital123</div>
+                            </div>
+                        </div>
+                        <div class="demo-account">
+                            <div class="demo-role">Parent</div>
+                            <div class="demo-credentials">
+                                <div class="demo-username">parent1</div>
+                                <div class="demo-password">parent123</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sign Up Link -->
+                <div class="auth-footer">
+                    <p>Don't have an account?
+                        <a href="signup.html" class="auth-link auth-link-primary">Sign up here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Auth Illustration -->
+            <div class="auth-illustration">
+                <div class="illustration-content">
+                    <div class="illustration-icon">🔐</div>
+                    <h2>Secure Access</h2>
+                    <p>Your child's health data is protected with enterprise-grade security</p>
+                    <div class="illustration-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">🔒</span>
+                            <span>Role-based access control</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🛡️</span>
+                            <span>Data encryption</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📱</span>
+                            <span>Multi-device support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-backdrop" id="forgotPasswordBackdrop"></div>
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Password</h3>
+                <button class="modal-close" id="forgotPasswordClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="resetEmail" class="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            id="resetEmail"
+                            name="email"
+                            class="form-input"
+                            placeholder="Enter your email address"
+                            required
+                        >
+                        <div class="form-error" id="resetEmailError"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="resetBtn">
+                        <span class="btn-text">Send Reset Link</span>
+                        <div class="btn-spinner" id="resetSpinner" style="display: none;"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div id="darkModeToggle"></div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize dark mode toggle
+            createDarkModeToggle('darkModeToggle', {
+                showLabel: false,
+                size: 20
+            });
+
+            // Check if user is already logged in
+            if (isAuthenticated()) {
+                const currentUser = getCurrentUser();
+                showNotification('You are already logged in!', 'info');
+                setTimeout(() => {
+                    window.location.href = `${currentUser.role}/dashboard.html`;
+                }, 1500);
+                return;
+            }
+
+            // Get redirect URL from query params
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectUrl = urlParams.get('redirect') || 'index.html';
+
+            // Password toggle functionality
+            const passwordToggle = document.getElementById('passwordToggle');
+            const passwordInput = document.getElementById('password');
+
+            passwordToggle.addEventListener('click', function() {
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.textContent = type === 'password' ? '👁️' : '🙈';
+            });
+
+            // Login form handling
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginSpinner = document.getElementById('loginSpinner');
+
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Clear previous errors
+                document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+
+                const formData = new FormData(this);
+                const username = formData.get('username').trim();
+                const password = formData.get('password');
+                const rememberMe = formData.get('rememberMe') === 'on';
+
+                // Basic validation
+                let hasErrors = false;
+
+                if (!username) {
+                    document.getElementById('usernameError').textContent = 'Username or email is required';
+                    hasErrors = true;
+                }
+
+                if (!password) {
+                    document.getElementById('passwordError').textContent = 'Password is required';
+                    hasErrors = true;
+                }
+
+                if (hasErrors) return;
+
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtn.querySelector('.btn-text').textContent = 'Signing In...';
+                loginSpinner.style.display = 'inline-block';
+
+                try {
+                    // Attempt login
+                    const user = await login(username, password);
+
+                    showNotification(`Welcome back, ${user.name}!`, 'success');
+
+                    // Redirect after successful login
+                    setTimeout(() => {
+                        if (redirectUrl.includes('/admin/') && user.role !== 'admin') {
+                            window.location.href = `${user.role}/dashboard.html`;
+                        } else if (redirectUrl.includes('/hospital/') && user.role !== 'hospital') {
+                            window.location.href = `${user.role}/dashboard.html`;
+                        } else if (redirectUrl.includes('/parent/') && user.role !== 'parent') {
+                            window.location.href = `${user.role}/dashboard.html`;
+                        } else {
+                            window.location.href = redirectUrl;
+                        }
+                    }, 1000);
+
+                } catch (error) {
+                    showNotification(error.message, 'error');
+
+                    // Reset form on error
+                    loginBtn.disabled = false;
+                    loginBtn.querySelector('.btn-text').textContent = 'Sign In';
+                    loginSpinner.style.display = 'none';
+                }
+            });
+
+            // Demo account quick login
+            document.querySelectorAll('.demo-account').forEach(account => {
+                account.addEventListener('click', function() {
+                    const username = this.querySelector('.demo-username').textContent;
+                    const password = this.querySelector('.demo-password').textContent;
+
+                    document.getElementById('username').value = username;
+                    document.getElementById('password').value = password;
+
+                    // Auto-submit form
+                    setTimeout(() => {
+                        loginForm.dispatchEvent(new Event('submit'));
+                    }, 100);
+                });
+            });
+
+            // Forgot password modal
+            const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+            const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+            const forgotPasswordBackdrop = document.getElementById('forgotPasswordBackdrop');
+            const forgotPasswordClose = document.getElementById('forgotPasswordClose');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+
+            forgotPasswordLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showModal('forgotPasswordModal', 'forgotPasswordBackdrop');
+            });
+
+            forgotPasswordClose.addEventListener('click', function() {
+                hideModal('forgotPasswordModal', 'forgotPasswordBackdrop');
+            });
+
+            forgotPasswordBackdrop.addEventListener('click', function() {
+                hideModal('forgotPasswordModal', 'forgotPasswordBackdrop');
+            });
+
+            forgotPasswordForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const email = document.getElementById('resetEmail').value.trim();
+
+                if (!email) {
+                    document.getElementById('resetEmailError').textContent = 'Email is required';
+                    return;
+                }
+
+                if (!Utils.validateEmail(email)) {
+                    document.getElementById('resetEmailError').textContent = 'Please enter a valid email';
+                    return;
+                }
+
+                const resetBtn = document.getElementById('resetBtn');
+                const resetSpinner = document.getElementById('resetSpinner');
+
+                resetBtn.disabled = true;
+                resetBtn.querySelector('.btn-text').textContent = 'Sending...';
+                resetSpinner.style.display = 'inline-block';
+
+                try {
+                    // In a real app, this would send an email
+                    console.log(`Password reset requested for: ${email}`);
+                    showNotification('Password reset instructions sent to your email!', 'success');
+                    hideModal('forgotPasswordModal', 'forgotPasswordBackdrop');
+                    this.reset();
+
+                } catch (error) {
+                    showNotification(error.message, 'error');
+                } finally {
+                    resetBtn.disabled = false;
+                    resetBtn.querySelector('.btn-text').textContent = 'Send Reset Link';
+                    resetSpinner.style.display = 'none';
+                }
+            });
+
+            // Enter key support
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && document.activeElement.tagName !== 'BUTTON') {
+                    loginForm.dispatchEvent(new Event('submit'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

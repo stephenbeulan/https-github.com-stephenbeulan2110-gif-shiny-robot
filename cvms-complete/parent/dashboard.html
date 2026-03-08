@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Dashboard - CVMS</title>
+    <meta name="description" content="Parent dashboard for Child Vaccination Management System">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+
+    <!-- Scripts -->
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/animations.js"></script>
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/database.js"></script>
+    <script src="../assets/js/charts.js"></script>
+    <script src="../assets/js/uip-schedule.js"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo.svg" alt="CVMS Logo" class="sidebar-logo" onerror="this.style.display='none'">
+            <span class="sidebar-title">CVMS Parent</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="children.html" class="nav-item" data-page="children">
+                <span class="nav-icon">👶</span>
+                <span class="nav-text">My Children</span>
+            </a>
+            <a href="vaccinations.html" class="nav-item" data-page="vaccinations">
+                <span class="nav-icon">💉</span>
+                <span class="nav-text">Vaccinations</span>
+            </a>
+            <a href="appointments.html" class="nav-item" data-page="appointments">
+                <span class="nav-icon">📅</span>
+                <span class="nav-text">Appointments</span>
+            </a>
+            <a href="certificates.html" class="nav-item" data-page="certificates">
+                <span class="nav-icon">🏆</span>
+                <span class="nav-text">Certificates</span>
+            </a>
+            <a href="profile.html" class="nav-item" data-page="profile">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">Profile</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">👨‍👩‍👧‍👦</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Parent User</div>
+                    <div class="user-role">Parent/Guardian</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="logoutBtn">
+                <span class="btn-icon">🚪</span>
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+                <p class="page-subtitle">Track your children's vaccination progress</p>
+            </div>
+            <div class="page-actions">
+                <div class="date-display" id="currentDate"></div>
+                <div id="darkModeToggle"></div>
+            </div>
+        </header>
+
+        <!-- Children Overview -->
+        <section class="children-overview">
+            <div class="section-header">
+                <h2>My Children</h2>
+                <a href="children.html" class="btn btn-secondary btn-sm">Manage Children</a>
+            </div>
+
+            <div class="children-grid" id="childrenGrid">
+                <!-- Children cards will be populated here -->
+            </div>
+        </section>
+
+        <!-- Upcoming Vaccinations -->
+        <section class="upcoming-section">
+            <div class="section-header">
+                <h2>Upcoming Vaccinations</h2>
+                <a href="vaccinations.html" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+
+            <div class="vaccination-timeline" id="upcomingVaccinations">
+                <!-- Upcoming vaccinations will be populated here -->
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <div class="section-header">
+                <h2>Recent Activity</h2>
+            </div>
+
+            <div class="activity-list" id="recentActivity">
+                <!-- Recent activity will be populated here -->
+            </div>
+        </section>
+
+        <!-- Vaccination Progress -->
+        <section class="progress-section">
+            <div class="section-header">
+                <h2>Vaccination Progress</h2>
+            </div>
+
+            <div class="progress-cards" id="progressCards">
+                <!-- Progress cards will be populated here -->
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="actions-section">
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+            </div>
+
+            <div class="actions-grid">
+                <a href="appointments.html" class="action-card">
+                    <div class="action-icon">📅</div>
+                    <div class="action-content">
+                        <h3>Book Appointment</h3>
+                        <p>Schedule vaccination appointments</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="children.html" class="action-card">
+                    <div class="action-icon">👶</div>
+                    <div class="action-content">
+                        <h3>Add Child</h3>
+                        <p>Register a new child</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="certificates.html" class="action-card">
+                    <div class="action-icon">🏆</div>
+                    <div class="action-content">
+                        <h3>View Certificates</h3>
+                        <p>Download vaccination certificates</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="profile.html" class="action-card">
+                    <div class="action-icon">⚙️</div>
+                    <div class="action-content">
+                        <h3>Update Profile</h3>
+                        <p>Manage your account settings</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!requireRole('parent')) return;
+
+            const currentUser = getCurrentUser();
+
+            // Initialize components
+            createDarkModeToggle('darkModeToggle', { showLabel: false, size: 20 });
+
+            // Update user info
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('currentDate').textContent = formatDate(new Date(), 'DD MMM YYYY');
+
+            // Load dashboard data
+            loadDashboardData();
+
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    logout();
+                    window.location.href = '../login.html';
+                }
+            });
+
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    if (page !== 'dashboard') {
+                        window.location.href = `${page}.html`;
+                    }
+                });
+            });
+        });
+
+        function loadDashboardData() {
+            const currentUser = getCurrentUser();
+
+            // Load children
+            loadChildren();
+
+            // Load upcoming vaccinations
+            loadUpcomingVaccinations();
+
+            // Load recent activity
+            loadRecentActivity();
+
+            // Load progress cards
+            loadProgressCards();
+        }
+
+        function loadChildren() {
+            const currentUser = getCurrentUser();
+            const children = database.getChildren().filter(child => child.parentId === currentUser.id);
+            const container = document.getElementById('childrenGrid');
+
+            if (children.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">👶</div>
+                        <h3>No children registered</h3>
+                        <p>Register your child to start tracking vaccinations</p>
+                        <a href="children.html" class="btn btn-primary">Add Child</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            children.forEach(child => {
+                const age = calculateAge(child.dateOfBirth);
+                const nextVaccination = getNextVaccination(child);
+
+                const childCard = document.createElement('div');
+                childCard.className = 'child-card';
+                childCard.innerHTML = `
+                    <div class="child-avatar">👶</div>
+                    <div class="child-info">
+                        <h3 class="child-name">${child.name}</h3>
+                        <p class="child-details">Age: ${age} years • DOB: ${formatDate(child.dateOfBirth)}</p>
+                        <div class="child-status">
+                            <span class="status-badge status-healthy">Healthy</span>
+                        </div>
+                    </div>
+                    <div class="child-actions">
+                        <div class="next-vaccination">
+                            <small>Next: ${nextVaccination ? nextVaccination.name : 'All caught up!'}</small>
+                            <small>${nextVaccination ? formatDate(nextVaccination.dueDate) : ''}</small>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(childCard);
+            });
+        }
+
+        function loadUpcomingVaccinations() {
+            const currentUser = getCurrentUser();
+            const children = database.getChildren().filter(child => child.parentId === currentUser.id);
+            const container = document.getElementById('upcomingVaccinations');
+
+            const upcoming = [];
+
+            children.forEach(child => {
+                const childVaccinations = getUpcomingVaccinationsForChild(child);
+                upcoming.push(...childVaccinations.map(vac => ({ ...vac, childName: child.name })));
+            });
+
+            // Sort by due date and take first 5
+            upcoming.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+            const nextFive = upcoming.slice(0, 5);
+
+            if (nextFive.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">💉</div>
+                        <h3>All caught up!</h3>
+                        <p>No upcoming vaccinations scheduled</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            nextFive.forEach(vac => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+
+                const dueDate = new Date(vac.dueDate);
+                const isOverdue = dueDate < new Date();
+                const daysUntil = Math.ceil((dueDate - new Date()) / (1000 * 60 * 60 * 24));
+
+                timelineItem.innerHTML = `
+                    <div class="timeline-marker ${isOverdue ? 'overdue' : 'upcoming'}"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">${vac.name} for ${vac.childName}</div>
+                        <div class="timeline-details">
+                            Due: ${formatDate(vac.dueDate)}
+                            ${daysUntil > 0 ? `(${daysUntil} days)` : daysUntil === 0 ? '(Today)' : `(${Math.abs(daysUntil)} days overdue)`}
+                        </div>
+                        <div class="timeline-status">
+                            <span class="status-badge ${isOverdue ? 'status-overdue' : 'status-upcoming'}">
+                                ${isOverdue ? 'Overdue' : 'Upcoming'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(timelineItem);
+            });
+        }
+
+        function loadRecentActivity() {
+            const currentUser = getCurrentUser();
+            const children = database.getChildren().filter(child => child.parentId === currentUser.id);
+            const childIds = children.map(child => child.id);
+
+            const vaccinations = database.getVaccinations()
+                .filter(vac => childIds.includes(vac.childId))
+                .sort((a, b) => new Date(b.dateGiven) - new Date(a.dateGiven))
+                .slice(0, 5);
+
+            const appointments = database.getAppointments()
+                .filter(apt => childIds.includes(apt.childId))
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 3);
+
+            const container = document.getElementById('recentActivity');
+            container.innerHTML = '';
+
+            // Add recent vaccinations
+            vaccinations.forEach(vac => {
+                const child = children.find(c => c.id === vac.childId);
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">💉</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Vaccination completed</div>
+                        <div class="activity-description">${child.name} received ${vac.vaccineName}</div>
+                        <div class="activity-time">${formatDate(vac.dateGiven)}</div>
+                    </div>
+                `;
+                container.appendChild(activityItem);
+            });
+
+            // Add recent appointments
+            appointments.forEach(apt => {
+                const child = children.find(c => c.id === apt.childId);
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">📅</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Appointment ${apt.status}</div>
+                        <div class="activity-description">${child.name} - ${apt.vaccineName} at ${apt.hospitalName}</div>
+                        <div class="activity-time">${formatDate(apt.date)}</div>
+                    </div>
+                `;
+                container.appendChild(activityItem);
+            });
+
+            if (container.children.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <h3>No recent activity</h3>
+                        <p>Activity will appear here as you use the system</p>
+                    </div>
+                `;
+            }
+        }
+
+        function loadProgressCards() {
+            const currentUser = getCurrentUser();
+            const children = database.getChildren().filter(child => child.parentId === currentUser.id);
+            const container = document.getElementById('progressCards');
+
+            if (children.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            children.forEach(child => {
+                const vaccinations = database.getVaccinations().filter(vac => vac.childId === child.id);
+                const totalScheduled = getTotalScheduledVaccinations(child);
+                const completed = vaccinations.length;
+                const progress = totalScheduled > 0 ? Math.round((completed / totalScheduled) * 100) : 0;
+
+                const progressCard = document.createElement('div');
+                progressCard.className = 'progress-card';
+                progressCard.innerHTML = `
+                    <div class="progress-header">
+                        <h3>${child.name}</h3>
+                        <span class="progress-percentage">${progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    <div class="progress-details">
+                        <span>${completed} of ${totalScheduled} vaccinations completed</span>
+                    </div>
+                `;
+
+                container.appendChild(progressCard);
+            });
+        }
+
+        function getNextVaccination(child) {
+            const vaccinations = database.getVaccinations().filter(vac => vac.childId === child.id);
+            const givenVaccines = vaccinations.map(vac => vac.vaccineName);
+
+            const schedule = getVaccinationSchedule(child.dateOfBirth);
+            const now = new Date();
+
+            for (const vaccine of schedule) {
+                if (!givenVaccines.includes(vaccine.name)) {
+                    const dueDate = new Date(child.dateOfBirth);
+                    dueDate.setMonth(dueDate.getMonth() + vaccine.months);
+                    if (dueDate >= now) {
+                        return { ...vaccine, dueDate };
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        function getUpcomingVaccinationsForChild(child) {
+            const vaccinations = database.getVaccinations().filter(vac => vac.childId === child.id);
+            const givenVaccines = vaccinations.map(vac => vac.vaccineName);
+
+            const schedule = getVaccinationSchedule(child.dateOfBirth);
+            const upcoming = [];
+
+            for (const vaccine of schedule) {
+                if (!givenVaccines.includes(vaccine.name)) {
+                    const dueDate = new Date(child.dateOfBirth);
+                    dueDate.setMonth(dueDate.getMonth() + vaccine.months);
+                    upcoming.push({ ...vaccine, dueDate: dueDate.toISOString().split('T')[0] });
+                }
+            }
+
+            return upcoming.slice(0, 3); // Next 3 upcoming
+        }
+
+        function getTotalScheduledVaccinations(child) {
+            const ageInMonths = getAgeInMonths(child.dateOfBirth);
+            const schedule = getVaccinationSchedule(child.dateOfBirth);
+            return schedule.filter(vaccine => vaccine.months <= ageInMonths).length;
+        }
+    </script>
+</body>
+</html>

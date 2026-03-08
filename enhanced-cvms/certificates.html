@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccination Certificates - VaxTracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .certificates-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .certificate-preview {
+            background: linear-gradient(135deg, #f0f4ff 0%, #f9f5ff 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e3a8a, #7c3aed);
+        }
+
+        .certificate-preview:hover {
+            box-shadow: 0 12px 24px rgba(124, 58, 237, 0.15);
+            transform: translateY(-4px);
+            border-color: #7c3aed;
+        }
+
+        .certificate-icon {
+            font-size: 3rem;
+            color: #7c3aed;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-name {
+            color: #1f2937;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-child {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .certificate-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .certificate-actions button {
+            font-size: 0.9rem;
+        }
+
+        .pdf-preview {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Georgia', serif;
+        }
+
+        .pdf-header {
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .pdf-header h1 {
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        .pdf-header p {
+            color: #6b7280;
+            margin: 0.5rem 0 0;
+            font-style: italic;
+        }
+
+        .pdf-body {
+            padding: 2rem;
+            line-height: 1.8;
+        }
+
+        .pdf-field {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-bottom: 1px dashed #d1d5db;
+        }
+
+        .pdf-field-label {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .pdf-field-value {
+            color: #4b5563;
+        }
+
+        .pdf-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #1e3a8a;
+            text-align: center;
+        }
+
+        .signature-line {
+            height: 50px;
+            border-bottom: 2px solid #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: #6b7280;
+        }
+
+        .print-header {
+            display: none;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 1rem;
+        }
+
+        @media print {
+            body > *:not(.pdf-preview) {
+                display: none !important;
+            }
+            .print-header {
+                display: block;
+            }
+            .print-btn,
+            .close-btn {
+                display: none !important;
+            }
+            .pdf-preview {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .generate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-completed {
+            display: inline-block;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-syringe"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="vaccinations.html">Vaccinations</a>
+                    <a href="children.html">Children</a>
+                    <a href="certificates.html" class="active">Certificates</a>
+                </nav>
+                <div class="user-menu">
+                    <span id="userName">User</span>
+                    <button class="btn btn-sm btn-ghost" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="certificates-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h1>Vaccination Certificates</h1>
+                </div>
+
+                <p style="color: #6b7280; margin-bottom: 2rem;">
+                    Generate and download official vaccination certificates for each child. These certificates can be used for school enrollment, travel, and official documentation.
+                </p>
+
+                <!-- Certificates Grid -->
+                <div id="certificatesContainer" class="certificates-grid">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <i class="fas fa-certificate"></i>
+                    <h3>No completed vaccinations yet</h3>
+                    <p style="color: #6b7280;">Complete vaccinations to generate certificates</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Certificate Preview -->
+    <div id="certificateModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeCertificateModal()"></div>
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2>Vaccination Certificate</h2>
+                <button class="btn btn-ghost" onclick="closeCertificateModal()" style="padding: 0.5rem;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div id="certificatePreviewContainer">
+                <!-- Certificate will be rendered here -->
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button class="btn btn-primary print-btn" onclick="printCertificate()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-secondary print-btn" onclick="downloadCertificateAsImage()">
+                    <i class="fas fa-download"></i> Download
+                </button>
+                <button class="btn btn-ghost print-btn" onclick="closeCertificateModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let children = [];
+        let vaccinations = [];
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName');
+            if (!userName) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = userName;
+            loadData();
+        });
+
+        function loadData() {
+            const storedChildren = localStorage.getItem('children');
+            children = storedChildren ? JSON.parse(storedChildren) : [
+                { id: 1, name: 'Alice Johnson', dob: '2020-03-15', gender: 'female' },
+                { id: 2, name: 'Bob Johnson', dob: '2018-07-22', gender: 'male' }
+            ];
+
+            const storedVaccinations = localStorage.getItem('vaccinations');
+            vaccinations = storedVaccinations ? JSON.parse(storedVaccinations) : [
+                { childId: 1, vaccine: 'BCG', status: 'completed', date: '2020-04-01' },
+                { childId: 1, vaccine: 'Polio', status: 'completed', date: '2020-06-15' },
+                { childId: 2, vaccine: 'DPT', status: 'completed', date: '2018-08-20' },
+                { childId: 2, vaccine: 'Measles', status: 'completed', date: '2018-12-10' }
+            ];
+
+            renderCertificates();
+        }
+
+        function renderCertificates() {
+            const container = document.getElementById('certificatesContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            const childrenWithCertificates = children.filter(child => {
+                const childVaccinations = vaccinations.filter(v => v.childId === child.id && v.status === 'completed');
+                return childVaccinations.length > 0;
+            });
+
+            if (childrenWithCertificates.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            container.innerHTML = childrenWithCertificates.map(child => {
+                const childVaccinations = vaccinations.filter(v => v.childId === child.id && v.status === 'completed');
+                return `
+                    <div class="certificate-preview">
+                        <div class="certificate-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="certificate-name">${child.name}</div>
+                        <div class="certificate-child">
+                            DOB: ${formatDate(child.dob)}<br>
+                            <span class="status-completed">${childVaccinations.length} Vaccinations Completed</span>
+                        </div>
+                        <div class="certificate-actions">
+                            <button class="btn btn-sm btn-primary" onclick="viewCertificate(${child.id})">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="downloadCertificate(${child.id})">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewCertificate(childId) {
+            const child = children.find(c => c.id === childId);
+            const childVaccinations = vaccinations.filter(v => v.childId === childId && v.status === 'completed');
+
+            if (!child) return;
+
+            const certificateHTML = generateCertificateHTML(child, childVaccinations);
+            document.getElementById('certificatePreviewContainer').innerHTML = certificateHTML;
+            document.getElementById('certificateModal').dataset.childId = childId;
+            document.getElementById('certificateModal').style.display = 'flex';
+        }
+
+        function generateCertificateHTML(child, vaccinations) {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            return `
+                <div class="pdf-preview">
+                    <div class="print-header">
+                        <h4>VACCINATION CERTIFICATE - OFFICIAL RECORD</h4>
+                        <p>Issued: ${formattedDate}</p>
+                    </div>
+
+                    <div class="pdf-header">
+                        <h1>VACCINATION CERTIFICATE</h1>
+                        <p>Official Record of Immunization</p>
+                    </div>
+
+                    <div class="pdf-body">
+                        <div class="pdf-field">
+                            <div class="pdf-field-label">Child's Name:</div>
+                            <div class="pdf-field-value">${child.name}</div>
+                        </div>
+
+                        <div class="pdf-field">
+                            <div class="pdf-field-label">Date of Birth:</div>
+                            <div class="pdf-field-value">${formatDate(child.dob)}</div>
+                        </div>
+
+                        <div class="pdf-field">
+                            <div class="pdf-field-label">Certificate Number:</div>
+                            <div class="pdf-field-value">CERT-${child.id}-${today.getFullYear()}</div>
+                        </div>
+
+                        <div class="pdf-field">
+                            <div class="pdf-field-label">Issue Date:</div>
+                            <div class="pdf-field-value">${formattedDate}</div>
+                        </div>
+
+                        <h3 style="margin-top: 2rem; color: #1e3a8a;">Vaccinations Completed</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+                            <thead>
+                                <tr style="background: #f3f4f6;">
+                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #1e3a8a;">Vaccine Name</th>
+                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #1e3a8a;">Date Administered</th>
+                                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #1e3a8a;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${vaccinations.map(v => `
+                                    <tr>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid #d1d5db;">${v.vaccine}</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid #d1d5db;">${formatDate(v.date)}</td>
+                                        <td style="padding: 0.75rem; border-bottom: 1px solid #d1d5db;">
+                                            <span style="background: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.85rem;">Completed</span>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+
+                        <p style="margin-top: 2rem; color: #6b7280; font-size: 0.95rem;">
+                            This certificate certifies that the child listed above has been vaccinated according to the national immunization schedule. This document is valid for official use.
+                        </p>
+                    </div>
+
+                    <div class="pdf-footer">
+                        <div>
+                            <div class="signature-line"></div>
+                            <div class="signature-label">Healthcare Provider</div>
+                        </div>
+                        <div>
+                            <div class="signature-line"></div>
+                            <div class="signature-label">Medical Record Officer</div>
+                        </div>
+                        <div>
+                            <div class="signature-line"></div>
+                            <div class="signature-label">Parent/Guardian</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').style.display = 'none';
+            document.getElementById('certificateModal').dataset.childId = '';
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function downloadCertificate(childId) {
+            const child = children.find(c => c.id === childId);
+            const childVaccinations = vaccinations.filter(v => v.childId === childId && v.status === 'completed');
+
+            if (!child) return;
+
+            let csvContent = 'data:text/csv;charset=utf-8,';
+            csvContent += 'VACCINATION CERTIFICATE\n';
+            csvContent += 'Child Name,' + child.name + '\n';
+            csvContent += 'Date of Birth,' + child.dob + '\n';
+            csvContent += 'Certificate Number,CERT-' + child.id + '-' + new Date().getFullYear() + '\n';
+            csvContent += 'Issue Date,' + new Date().toLocaleDateString() + '\n\n';
+            csvContent += 'Vaccine Name,Date Administered,Status\n';
+
+            childVaccinations.forEach(v => {
+                csvContent += v.vaccine + ',' + v.date + ',Completed\n';
+            });
+
+            const link = document.createElement('a');
+            link.setAttribute('href', encodeURI(csvContent));
+            link.setAttribute('download', `certificate_${child.name.replace(/\s+/g, '_')}.csv`);
+            link.click();
+        }
+
+        function downloadCertificateAsImage() {
+            const element = document.querySelector('.pdf-preview');
+            const childId = document.getElementById('certificateModal').dataset.childId;
+            const child = children.find(c => c.id == childId);
+
+            if (!element) return;
+
+            const originalDisplay = element.style.display;
+            element.style.display = 'block';
+
+            // Using html2canvas if available, otherwise fallback to print
+            if (typeof html2canvas === 'undefined') {
+                alert('Downloading as PDF. Right-click and select "Save as PDF" to save the certificate.');
+                window.print();
+            }
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr + 'T00:00:00');
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

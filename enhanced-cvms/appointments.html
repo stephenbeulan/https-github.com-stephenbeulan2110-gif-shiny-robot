@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments - VaxTracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .appointments-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .appointment-filters {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .appointment-card {
+            background: white;
+            border-left: 4px solid #7c3aed;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .appointment-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-card.completed {
+            border-left-color: #10b981;
+            opacity: 0.7;
+        }
+
+        .appointment-card.cancelled {
+            border-left-color: #ef4444;
+            opacity: 0.6;
+        }
+
+        .appointment-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .appointment-details h3 {
+            margin: 0 0 0.5rem;
+            color: #1f2937;
+        }
+
+        .appointment-details p {
+            margin: 0.25rem 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-badge.pending {
+            background: #fbbf24;
+            color: #78350f;
+        }
+
+        .status-badge.completed {
+            background: #a7f3d0;
+            color: #065f46;
+        }
+
+        .status-badge.cancelled {
+            background: #fca5a5;
+            color: #7f1d1d;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            border-radius: 0.75rem;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: #6b7280;
+        }
+
+        .add-appointment-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-syringe"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="vaccinations.html">Vaccinations</a>
+                    <a href="children.html">Children</a>
+                    <a href="appointments.html" class="active">Appointments</a>
+                </nav>
+                <div class="user-menu">
+                    <span id="userName">User</span>
+                    <button class="btn btn-sm btn-ghost" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="appointments-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h1>Appointments</h1>
+                    <button class="btn btn-primary add-appointment-btn" onclick="openAddAppointmentModal()">
+                        <i class="fas fa-calendar-plus"></i> Book Appointment
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="appointment-filters">
+                    <div class="filter-group">
+                        <label>Filter by Status</label>
+                        <select id="statusFilter" onchange="filterAppointments()">
+                            <option value="">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter by Child</label>
+                        <select id="childFilter" onchange="filterAppointments()">
+                            <option value="">All Children</option>
+                            <!-- Populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Appointments List -->
+                <div id="appointmentsContainer">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <i class="fas fa-calendar"></i>
+                    <h3>No appointments scheduled</h3>
+                    <p style="color: #6b7280; margin-bottom: 1.5rem;">Schedule your first vaccination appointment</p>
+                    <button class="btn btn-primary" onclick="openAddAppointmentModal()">
+                        <i class="fas fa-calendar-plus"></i> Book Appointment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Add/Edit Appointment -->
+    <div id="appointmentModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeAppointmentModal()"></div>
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 id="modalTitle">Book Appointment</h2>
+                <button class="btn btn-ghost" onclick="closeAppointmentModal()" style="padding: 0.5rem;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form id="appointmentForm" onsubmit="saveAppointment(event)">
+                <div class="form-group">
+                    <label for="childSelect">Child *</label>
+                    <select id="childSelect" required>
+                        <option value="">Select child</option>
+                        <!-- Populated by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="vaccineType">Vaccine Type *</label>
+                    <select id="vaccineType" required>
+                        <option value="">Select vaccine</option>
+                        <option value="BCG">BCG</option>
+                        <option value="Polio">Polio</option>
+                        <option value="DPT">DPT</option>
+                        <option value="Hepatitis B">Hepatitis B</option>
+                        <option value="Measles">Measles</option>
+                        <option value="Tetanus">Tetanus</option>
+                        <option value="Varicella">Varicella</option>
+                        <option value="HPV">HPV</option>
+                        <option value="Meningococcal">Meningococcal</option>
+                        <option value="COVID-19">COVID-19</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentDate">Appointment Date *</label>
+                    <input type="date" id="appointmentDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentTime">Appointment Time *</label>
+                    <input type="time" id="appointmentTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="clinicName">Clinic/Healthcare Center *</label>
+                    <input type="text" id="clinicName" placeholder="Enter clinic name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" placeholder="Any special instructions or notes..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAppointmentModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let appointments = [];
+        let children = [];
+        let editingAppointmentId = null;
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName');
+            if (!userName) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = userName;
+            loadChildren();
+            loadAppointments();
+            populateChildFilters();
+        });
+
+        function loadChildren() {
+            const stored = localStorage.getItem('children');
+            children = stored ? JSON.parse(stored) : [
+                { id: 1, name: 'Alice Johnson' },
+                { id: 2, name: 'Bob Johnson' }
+            ];
+        }
+
+        function loadAppointments() {
+            const stored = localStorage.getItem('appointments');
+            appointments = stored ? JSON.parse(stored) : [
+                {
+                    id: 1,
+                    childId: 1,
+                    childName: 'Alice Johnson',
+                    vaccine: 'Polio',
+                    date: '2026-03-20',
+                    time: '10:00',
+                    clinic: 'City Medical Center',
+                    status: 'pending',
+                    notes: 'Second dose'
+                },
+                {
+                    id: 2,
+                    childId: 2,
+                    childName: 'Bob Johnson',
+                    vaccine: 'DPT',
+                    date: '2026-03-22',
+                    time: '14:00',
+                    clinic: 'Main Hospital',
+                    status: 'completed',
+                    notes: 'First dose'
+                }
+            ];
+            renderAppointments();
+        }
+
+        function populateChildFilters() {
+            const childSelect = document.getElementById('childSelect');
+            const childFilter = document.getElementById('childFilter');
+
+            childSelect.innerHTML = '<option value="">Select child</option>';
+            childFilter.innerHTML = '<option value="">All Children</option>';
+
+            children.forEach(child => {
+                childSelect.innerHTML += `<option value="${child.id}">${child.name}</option>`;
+                childFilter.innerHTML += `<option value="${child.id}">${child.name}</option>`;
+            });
+        }
+
+        function renderAppointments() {
+            const container = document.getElementById('appointmentsContainer');
+            const statusFilter = document.getElementById('statusFilter').value;
+            const childFilter = document.getElementById('childFilter').value;
+
+            let filtered = appointments;
+            if (statusFilter) {
+                filtered = filtered.filter(a => a.status === statusFilter);
+            }
+            if (childFilter) {
+                filtered = filtered.filter(a => a.childId == childFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('emptyState').style.display = 'none';
+            container.innerHTML = filtered.map(apt => `
+                <div class="appointment-card ${apt.status}">
+                    <div class="appointment-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="appointment-details">
+                        <h3>${apt.childName}</h3>
+                        <p><strong>Vaccine:</strong> ${apt.vaccine}</p>
+                        <p>
+                            <strong>Date & Time:</strong> 
+                            ${new Date(apt.date).toLocaleDateString()} at ${apt.time}
+                        </p>
+                        <p><strong>Clinic:</strong> ${apt.clinic}</p>
+                        ${apt.notes ? `<p><strong>Notes:</strong> ${apt.notes}</p>` : ''}
+                        <span class="status-badge ${apt.status}">
+                            ${apt.status.charAt(0).toUpperCase() + apt.status.slice(1)}
+                        </span>
+                    </div>
+                    <div class="appointment-actions">
+                        ${apt.status === 'pending' ? `
+                            <button class="btn btn-sm btn-primary" onclick="editAppointment(${apt.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="completeAppointment(${apt.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-sm btn-danger" onclick="deleteAppointment(${apt.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterAppointments() {
+            renderAppointments();
+        }
+
+        function openAddAppointmentModal() {
+            editingAppointmentId = null;
+            document.getElementById('modalTitle').textContent = 'Book Appointment';
+            document.getElementById('appointmentForm').reset();
+            document.getElementById('appointmentModal').style.display = 'flex';
+
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('appointmentDate').min = tomorrow.toISOString().split('T')[0];
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').style.display = 'none';
+            document.getElementById('appointmentForm').reset();
+            editingAppointmentId = null;
+        }
+
+        function editAppointment(id) {
+            const apt = appointments.find(a => a.id === id);
+            if (!apt) return;
+
+            editingAppointmentId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Appointment';
+            document.getElementById('childSelect').value = apt.childId;
+            document.getElementById('vaccineType').value = apt.vaccine;
+            document.getElementById('appointmentDate').value = apt.date;
+            document.getElementById('appointmentTime').value = apt.time;
+            document.getElementById('clinicName').value = apt.clinic;
+            document.getElementById('notes').value = apt.notes || '';
+            document.getElementById('appointmentModal').style.display = 'flex';
+        }
+
+        function saveAppointment(event) {
+            event.preventDefault();
+
+            const childId = document.getElementById('childSelect').value;
+            const child = children.find(c => c.id == childId);
+            const appointmentData = {
+                childId: parseInt(childId),
+                childName: child.name,
+                vaccine: document.getElementById('vaccineType').value,
+                date: document.getElementById('appointmentDate').value,
+                time: document.getElementById('appointmentTime').value,
+                clinic: document.getElementById('clinicName').value,
+                notes: document.getElementById('notes').value,
+                status: 'pending'
+            };
+
+            if (editingAppointmentId) {
+                const idx = appointments.findIndex(a => a.id === editingAppointmentId);
+                if (idx !== -1) {
+                    appointments[idx] = { ...appointments[idx], ...appointmentData };
+                }
+            } else {
+                appointments.push({
+                    id: Date.now(),
+                    ...appointmentData
+                });
+            }
+
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            closeAppointmentModal();
+            renderAppointments();
+        }
+
+        function completeAppointment(id) {
+            const idx = appointments.findIndex(a => a.id === id);
+            if (idx !== -1) {
+                appointments[idx].status = 'completed';
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                renderAppointments();
+            }
+        }
+
+        function deleteAppointment(id) {
+            if (confirm('Are you sure you want to delete this appointment?')) {
+                appointments = appointments.filter(a => a.id !== id);
+                localStorage.setItem('appointments', JSON.stringify(appointments));
+                renderAppointments();
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

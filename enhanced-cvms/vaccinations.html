@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enhanced Child Vaccination Tracking System">
+    <title>Vaccination Tracking - VaxTracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="vaccination-tracking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-syringe"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="children.html">Children</a>
+                    <a href="vaccinations.html" class="active">Vaccinations</a>
+                    <a href="appointments.html">Appointments</a>
+                </nav>
+                <div class="user-menu">
+                    <span id="userName"></span>
+                    <button class="btn btn-sm btn-ghost" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Vaccination Tracking</h1>
+                    <p>Monitor and update vaccination records</p>
+                </div>
+            </div>
+
+            <!-- Alerts Section -->
+            <div id="alertsContainer" class="alerts-container"></div>
+
+            <!-- Child Selection -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Select Child</h2>
+                </div>
+                <div class="card-body">
+                    <select id="childSelect" class="form-control">
+                        <option value="">-- Select a child --</option>
+                    </select>
+
+                    <!-- Progress Bar -->
+                    <div id="progressContainer" style="display: none;" class="mt-4">
+                        <div class="progress-info">
+                            <span>Overall Progress</span>
+                            <span id="progressText">0/0 (0%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter Controls -->
+            <div id="filterContainer" style="display: none;" class="card mb-4">
+                <div class="card-header">
+                    <h2>Search & Filter</h2>
+                </div>
+                <div class="card-body">
+                    <div class="filter-controls">
+                        <!-- Search -->
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Search vaccines..." 
+                                class="form-control"
+                            >
+                        </div>
+
+                        <!-- Status Filter -->
+                        <select id="statusFilter" class="form-control">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                            <option value="overdue">Overdue</option>
+                        </select>
+
+                        <!-- Upcoming Toggle -->
+                        <button id="upcomingToggle" class="btn btn-outline">
+                            <i class="fas fa-bullseye"></i> Upcoming Only
+                        </button>
+
+                        <!-- Export CSV -->
+                        <button id="exportBtn" class="btn btn-outline">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div id="statsContainer" style="display: none;" class="grid grid-4 mb-4">
+                <div class="stat-card">
+                    <div class="stat-icon total">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Total Vaccines</div>
+                        <div class="stat-value" id="totalVaccines">0</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon completed">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Completed</div>
+                        <div class="stat-value" id="completedVaccines">0</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-value" id="pendingVaccines">0</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon overdue">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-label">Overdue</div>
+                        <div class="stat-value" id="overdueVaccines">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vaccinations Table -->
+            <div id="vaccinationsContainer" style="display: none;" class="card">
+                <div class="card-header">
+                    <h2>Vaccination Records (<span id="recordCount">0</span>)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="vaccinationsTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Vaccine Name</th>
+                                    <th>Dose</th>
+                                    <th>Scheduled Date</th>
+                                    <th>Status</th>
+                                    <th>Completed Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vaccinationsBody">
+                                <tr>
+                                    <td colspan="6" class="text-center">No vaccinations found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div id="timelineContainer" style="display: none;" class="card mt-4">
+                <div class="card-header">
+                    <h2>Vaccination Timeline</h2>
+                </div>
+                <div class="card-body">
+                    <div class="timeline" id="timeline">
+                        <!-- Timeline items will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <i class="fas fa-calendar"></i>
+                <h2>No Children Found</h2>
+                <p>Please add a child first to track vaccinations</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Completion Modal -->
+    <div id="completionModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Mark Vaccination Complete</h2>
+                <button class="modal-close" onclick="closeCompletionModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="completionDate">Completion Date</label>
+                    <input type="date" id="completionDate" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCompletionModal()">Cancel</button>
+                <button class="btn btn-primary" id="saveCompletionBtn" onclick="saveCompletion()">Save</button>
+            </div>
+        </div>
+    </div>
+    <div id="modalBackdrop" class="modal-backdrop" style="display: none;"></div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="vaccination-tracking.js"></script>
+</body>
+</html>

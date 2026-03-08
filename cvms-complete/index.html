@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVMS - Child Vaccination Management System</title>
+    <meta name="description" content="Complete Child Vaccination Management System with role-based access for parents, hospitals, and administrators">
+    <meta name="keywords" content="vaccination, children, healthcare, management, tracking, India, UIP">
+    <meta name="author" content="Charulatha.R">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <!-- Scripts -->
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/darkmode.js"></script>
+    <script src="assets/js/auth.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <img src="assets/images/logo.svg" alt="CVMS Logo" class="nav-logo" onerror="this.style.display='none'">
+                <span class="nav-title">CVMS</span>
+            </div>
+
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="login.html" class="btn btn-primary">Login</a>
+            </div>
+
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Complete Child Vaccination
+                <span class="hero-highlight">Management System</span>
+            </h1>
+            <p class="hero-subtitle">
+                Track vaccinations, manage appointments, and ensure your child's health with our comprehensive
+                vaccination management platform following India's Universal Immunization Programme.
+            </p>
+            <div class="hero-actions">
+                <a href="signup.html" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="#features" class="btn btn-secondary btn-lg">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-illustration">
+                <div class="floating-element vaccine-icon">💉</div>
+                <div class="floating-element calendar-icon">📅</div>
+                <div class="floating-element certificate-icon">🏆</div>
+                <div class="floating-element heart-icon">❤️</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to manage child vaccinations effectively</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Vaccination Tracking</h3>
+                    <p class="feature-description">
+                        Complete tracking of all 25+ vaccines in India's UIP schedule with automated reminders
+                        and progress monitoring.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍👩‍👧‍👦</div>
+                    <h3 class="feature-title">Multi-Child Management</h3>
+                    <p class="feature-description">
+                        Manage vaccination records for multiple children with individual timelines and
+                        personalized schedules.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🏥</div>
+                    <h3 class="feature-title">Hospital Integration</h3>
+                    <p class="feature-description">
+                        Seamless integration between parents and healthcare providers for appointment
+                        booking and record updates.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">Mobile Responsive</h3>
+                    <p class="feature-description">
+                        Access your vaccination records anywhere, anytime with our fully responsive
+                        mobile-friendly interface.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3 class="feature-title">Appointment Booking</h3>
+                    <p class="feature-description">
+                        Easy online appointment scheduling with hospitals and vaccination centers
+                        with automated reminders.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Certificate Generation</h3>
+                    <p class="feature-description">
+                        Generate official vaccination certificates with QR codes for verification
+                        and record keeping.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-description">
+                        Comprehensive analytics for administrators and hospitals to track vaccination
+                        coverage and performance.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Secure & Private</h3>
+                    <p class="feature-description">
+                        Your child's health data is protected with role-based access control and
+                        secure data storage.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="25000000">0</div>
+                    <div class="stat-label">Children Protected</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="95">0</div>
+                    <div class="stat-label">Vaccination Coverage</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">Partner Hospitals</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="25">0</div>
+                    <div class="stat-label">Vaccine Types</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About CVMS</h2>
+                    <p class="about-description">
+                        The Child Vaccination Management System (CVMS) is designed to streamline and
+                        modernize the vaccination process in India. Following the Universal Immunization
+                        Programme (UIP), our platform ensures that every child receives timely vaccinations
+                        while providing parents and healthcare providers with powerful tools to manage
+                        vaccination records.
+                    </p>
+                    <p class="about-description">
+                        Built with modern web technologies, CVMS offers a secure, user-friendly interface
+                        that works seamlessly across all devices. Our role-based system ensures that
+                        administrators, hospitals, and parents each have access to the tools they need
+                        while maintaining data privacy and security.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <span class="checkmark">✓</span>
+                            <span>25+ Vaccine Tracking</span>
+                        </div>
+                        <div class="about-feature">
+                            <span class="checkmark">✓</span>
+                            <span>Real-time Analytics</span>
+                        </div>
+                        <div class="about-feature">
+                            <span class="checkmark">✓</span>
+                            <span>QR Code Certificates</span>
+                        </div>
+                        <div class="about-feature">
+                            <span class="checkmark">✓</span>
+                            <span>Mobile Responsive</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="about-illustration">
+                        <div class="illustration-element">👶</div>
+                        <div class="illustration-element">💉</div>
+                        <div class="illustration-element">📊</div>
+                        <div class="illustration-element">🏥</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What People Say</h2>
+                <p class="section-subtitle">Trusted by parents and healthcare professionals</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "CVMS has made it so much easier to keep track of my children's vaccinations.
+                        The reminders and progress tracking are incredibly helpful."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👩‍👧‍👦</div>
+                        <div class="author-info">
+                            <div class="author-name">Priya Sharma</div>
+                            <div class="author-role">Parent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "As a pediatrician, CVMS helps me maintain accurate records and communicate
+                        effectively with parents about vaccination schedules."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨‍⚕️</div>
+                        <div class="author-info">
+                            <div class="author-name">Dr. Rajesh Kumar</div>
+                            <div class="author-role">Pediatrician</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "The analytics dashboard provides valuable insights for improving our
+                        vaccination coverage and identifying areas that need attention."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👩‍💼</div>
+                        <div class="author-info">
+                            <div class="author-name">Dr. Meera Patel</div>
+                            <div class="author-role">Health Administrator</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Have questions? We're here to help</p>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>support@cvms.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h3>Phone</h3>
+                            <p>+91 1800-CVMS-HELP</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>Address</h3>
+                            <p>Ministry of Health & Family Welfare<br>New Delhi, India</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form id="contactForm" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName" class="form-label">Name</label>
+                                <input type="text" id="contactName" name="name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail" class="form-label">Email</label>
+                                <input type="email" id="contactEmail" name="email" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactSubject" class="form-label">Subject</label>
+                            <input type="text" id="contactSubject" name="subject" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage" class="form-label">Message</label>
+                            <textarea id="contactMessage" name="message" class="form-textarea" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/images/logo.svg" alt="CVMS Logo" class="footer-logo" onerror="this.style.display='none'">
+                    <span class="footer-title">CVMS</span>
+                    <p class="footer-description">
+                        Protecting children's health through comprehensive vaccination management.
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h3 class="footer-heading">Product</h3>
+                        <ul class="footer-list">
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="signup.html">Sign Up</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-heading">Support</h3>
+                        <ul class="footer-list">
+                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-heading">Legal</h3>
+                        <ul class="footer-list">
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                            <li><a href="#">GDPR</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    &copy; 2024 CVMS - Child Vaccination Management System.
+                    Developed by <strong>Charulatha.R</strong>. All rights reserved.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">💼</a>
+                    <a href="#" class="social-link">📧</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dark Mode Toggle -->
+    <div id="darkModeToggle"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize dark mode toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create dark mode toggle
+            createDarkModeToggle('darkModeToggle', {
+                showLabel: false,
+                size: 20
+            });
+
+            // Mobile menu toggle
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            navToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                navToggle.classList.toggle('active');
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Close mobile menu
+                        navMenu.classList.remove('active');
+                        navToggle.classList.remove('active');
+                    }
+                });
+            });
+
+            // Animate stats on scroll
+            const animateStats = () => {
+                const statNumbers = document.querySelectorAll('.stat-number');
+                statNumbers.forEach(stat => {
+                    const target = parseInt(stat.getAttribute('data-target'));
+                    animateCounter(stat, target, 2000);
+                });
+            };
+
+            // Intersection Observer for stats animation
+            const statsSection = document.querySelector('.stats');
+            if (statsSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateStats();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(statsSection);
+            }
+
+            // Contact form handling
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData);
+
+                    // Simulate form submission
+                    showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
+
+                    // Reset form
+                    this.reset();
+                });
+            }
+
+            // Floating elements animation
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.5}s`;
+            });
+
+            // Check if user is already logged in
+            if (isAuthenticated()) {
+                const currentUser = getCurrentUser();
+                // Redirect to appropriate dashboard
+                setTimeout(() => {
+                    window.location.href = `${currentUser.role}/dashboard.html`;
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

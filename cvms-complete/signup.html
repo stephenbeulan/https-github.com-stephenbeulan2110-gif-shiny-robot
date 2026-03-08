@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CVMS</title>
+    <meta name="description" content="Create your account for Child Vaccination Management System">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <!-- Scripts -->
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/darkmode.js"></script>
+    <script src="assets/js/auth.js"></script>
+</head>
+<body class="auth-page">
+    <!-- Header -->
+    <header class="header header-simple">
+        <nav class="nav">
+            <div class="nav-brand">
+                <img src="assets/images/logo.svg" alt="CVMS Logo" class="nav-logo" onerror="this.style.display='none'">
+                <span class="nav-title">CVMS</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="login.html" class="btn btn-secondary">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1 class="auth-title">Create Account</h1>
+                    <p class="auth-subtitle">Join CVMS to manage your child's vaccinations</p>
+                </div>
+
+                <!-- Sign Up Form -->
+                <form id="signupForm" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                class="form-input"
+                                placeholder="Enter your first name"
+                                required
+                                autocomplete="given-name"
+                            >
+                            <div class="form-error" id="firstNameError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                class="form-input"
+                                placeholder="Enter your last name"
+                                required
+                                autocomplete="family-name"
+                            >
+                            <div class="form-error" id="lastNameError"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupUsername" class="form-label">Username</label>
+                        <input
+                            type="text"
+                            id="signupUsername"
+                            name="username"
+                            class="form-input"
+                            placeholder="Choose a username"
+                            required
+                            autocomplete="username"
+                        >
+                        <div class="form-error" id="usernameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail" class="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            id="signupEmail"
+                            name="email"
+                            class="form-input"
+                            placeholder="Enter your email address"
+                            required
+                            autocomplete="email"
+                        >
+                        <div class="form-error" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userRole" class="form-label">I am a</label>
+                        <select id="userRole" name="role" class="form-select" required>
+                            <option value="">Select your role</option>
+                            <option value="parent">Parent/Guardian</option>
+                            <option value="hospital">Healthcare Provider</option>
+                        </select>
+                        <div class="form-error" id="roleError"></div>
+                    </div>
+
+                    <div class="form-group" id="hospitalNameGroup" style="display: none;">
+                        <label for="hospitalName" class="form-label">Hospital/Clinic Name</label>
+                        <input
+                            type="text"
+                            id="hospitalName"
+                            name="hospitalName"
+                            class="form-input"
+                            placeholder="Enter hospital or clinic name"
+                        >
+                        <div class="form-error" id="hospitalNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <div class="password-input-container">
+                            <input
+                                type="password"
+                                id="signupPassword"
+                                name="password"
+                                class="form-input"
+                                placeholder="Create a strong password"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="signupPasswordToggle"
+                                aria-label="Toggle password visibility"
+                            >
+                                👁️
+                            </button>
+                        </div>
+                        <div class="password-strength" id="passwordStrength"></div>
+                        <div class="form-error" id="passwordError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <div class="password-input-container">
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                class="form-input"
+                                placeholder="Confirm your password"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="confirmPasswordToggle"
+                                aria-label="Toggle password visibility"
+                            >
+                                👁️
+                            </button>
+                        </div>
+                        <div class="form-error" id="confirmPasswordError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>
+                        </label>
+                        <div class="form-error" id="termsError"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="signupBtn">
+                        <span class="btn-text">Create Account</span>
+                        <div class="btn-spinner" id="signupSpinner" style="display: none;"></div>
+                    </button>
+                </form>
+
+                <!-- Sign In Link -->
+                <div class="auth-footer">
+                    <p>Already have an account?
+                        <a href="login.html" class="auth-link auth-link-primary">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Auth Illustration -->
+            <div class="auth-illustration">
+                <div class="illustration-content">
+                    <div class="illustration-icon">👋</div>
+                    <h2>Welcome to CVMS</h2>
+                    <p>Join thousands of parents and healthcare providers managing vaccinations effectively</p>
+                    <div class="illustration-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>Track vaccination progress</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📅</span>
+                            <span>Get timely reminders</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🏆</span>
+                            <span>Earn vaccination certificates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Dark Mode Toggle -->
+    <div id="darkModeToggle"></div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize dark mode toggle
+            createDarkModeToggle('darkModeToggle', {
+                showLabel: false,
+                size: 20
+            });
+
+            // Check if user is already logged in
+            if (isAuthenticated()) {
+                const currentUser = getCurrentUser();
+                showNotification('You are already logged in!', 'info');
+                setTimeout(() => {
+                    window.location.href = `${currentUser.role}/dashboard.html`;
+                }, 1500);
+                return;
+            }
+
+            // Role-based form fields
+            const userRoleSelect = document.getElementById('userRole');
+            const hospitalNameGroup = document.getElementById('hospitalNameGroup');
+
+            userRoleSelect.addEventListener('change', function() {
+                if (this.value === 'hospital') {
+                    hospitalNameGroup.style.display = 'block';
+                    document.getElementById('hospitalName').required = true;
+                } else {
+                    hospitalNameGroup.style.display = 'none';
+                    document.getElementById('hospitalName').required = false;
+                }
+            });
+
+            // Password toggle functionality
+            const passwordToggles = ['signupPasswordToggle', 'confirmPasswordToggle'];
+
+            passwordToggles.forEach(toggleId => {
+                const toggle = document.getElementById(toggleId);
+                const input = document.getElementById(toggleId.replace('Toggle', ''));
+
+                toggle.addEventListener('click', function() {
+                    const type = input.type === 'password' ? 'text' : 'password';
+                    input.type = type;
+                    this.textContent = type === 'password' ? '👁️' : '🙈';
+                });
+            });
+
+            // Password strength indicator
+            const passwordInput = document.getElementById('signupPassword');
+            const passwordStrength = document.getElementById('passwordStrength');
+
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strength = calculatePasswordStrength(password);
+
+                passwordStrength.className = 'password-strength';
+
+                if (password.length === 0) {
+                    passwordStrength.textContent = '';
+                    return;
+                }
+
+                switch (strength) {
+                    case 'weak':
+                        passwordStrength.textContent = 'Weak password';
+                        passwordStrength.classList.add('strength-weak');
+                        break;
+                    case 'medium':
+                        passwordStrength.textContent = 'Medium strength';
+                        passwordStrength.classList.add('strength-medium');
+                        break;
+                    case 'strong':
+                        passwordStrength.textContent = 'Strong password';
+                        passwordStrength.classList.add('strength-strong');
+                        break;
+                }
+            });
+
+            function calculatePasswordStrength(password) {
+                let score = 0;
+
+                if (password.length >= 8) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/[0-9]/.test(password)) score++;
+                if (/[^A-Za-z0-9]/.test(password)) score++;
+
+                if (score <= 2) return 'weak';
+                if (score <= 3) return 'medium';
+                return 'strong';
+            }
+
+            // Sign up form handling
+            const signupForm = document.getElementById('signupForm');
+            const signupBtn = document.getElementById('signupBtn');
+            const signupSpinner = document.getElementById('signupSpinner');
+
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Clear previous errors
+                document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+
+                const formData = new FormData(this);
+                const userData = {
+                    firstName: formData.get('firstName').trim(),
+                    lastName: formData.get('lastName').trim(),
+                    username: formData.get('username').trim(),
+                    email: formData.get('email').trim(),
+                    role: formData.get('role'),
+                    hospitalName: formData.get('hospitalName')?.trim(),
+                    password: formData.get('password'),
+                    confirmPassword: formData.get('confirmPassword'),
+                    agreeTerms: formData.get('agreeTerms') === 'on'
+                };
+
+                // Validation
+                let hasErrors = false;
+
+                if (!userData.firstName) {
+                    document.getElementById('firstNameError').textContent = 'First name is required';
+                    hasErrors = true;
+                }
+
+                if (!userData.lastName) {
+                    document.getElementById('lastNameError').textContent = 'Last name is required';
+                    hasErrors = true;
+                }
+
+                if (!userData.username || userData.username.length < 3) {
+                    document.getElementById('usernameError').textContent = 'Username must be at least 3 characters';
+                    hasErrors = true;
+                }
+
+                if (!userData.email || !Utils.validateEmail(userData.email)) {
+                    document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                    hasErrors = true;
+                }
+
+                if (!userData.role) {
+                    document.getElementById('roleError').textContent = 'Please select your role';
+                    hasErrors = true;
+                }
+
+                if (userData.role === 'hospital' && !userData.hospitalName) {
+                    document.getElementById('hospitalNameError').textContent = 'Hospital name is required';
+                    hasErrors = true;
+                }
+
+                if (!userData.password || userData.password.length < 6) {
+                    document.getElementById('passwordError').textContent = 'Password must be at least 6 characters';
+                    hasErrors = true;
+                }
+
+                if (userData.password !== userData.confirmPassword) {
+                    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                    hasErrors = true;
+                }
+
+                if (!userData.agreeTerms) {
+                    document.getElementById('termsError').textContent = 'You must agree to the terms and conditions';
+                    hasErrors = true;
+                }
+
+                if (hasErrors) return;
+
+                // Show loading state
+                signupBtn.disabled = true;
+                signupBtn.querySelector('.btn-text').textContent = 'Creating Account...';
+                signupSpinner.style.display = 'inline-block';
+
+                try {
+                    // Prepare registration data
+                    const registrationData = {
+                        username: userData.username,
+                        email: userData.email,
+                        password: userData.password,
+                        name: `${userData.firstName} ${userData.lastName}`,
+                        role: userData.role,
+                        hospitalId: userData.role === 'hospital' ? Utils.generateId() : null
+                    };
+
+                    // Register user
+                    const newUser = await register(registrationData);
+
+                    // If hospital, create hospital record
+                    if (userData.role === 'hospital') {
+                        const hospitals = database.getHospitals();
+                        const newHospital = {
+                            id: registrationData.hospitalId,
+                            name: userData.hospitalName,
+                            email: userData.email,
+                            phone: '',
+                            address: '',
+                            city: '',
+                            state: '',
+                            pincode: '',
+                            type: 'Private',
+                            beds: 0,
+                            doctors: 0,
+                            isActive: true,
+                            createdAt: new Date().toISOString()
+                        };
+                        hospitals.push(newHospital);
+                        localStorage.setItem('cvms-hospitals', JSON.stringify(hospitals));
+                    }
+
+                    showNotification('Account created successfully! Welcome to CVMS.', 'success');
+
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = `${newUser.role}/dashboard.html`;
+                    }, 1500);
+
+                } catch (error) {
+                    showNotification(error.message, 'error');
+
+                    // Reset form on error
+                    signupBtn.disabled = false;
+                    signupBtn.querySelector('.btn-text').textContent = 'Create Account';
+                    signupSpinner.style.display = 'none';
+                }
+            });
+
+            // Real-time username validation
+            const usernameInput = document.getElementById('signupUsername');
+            let usernameTimeout;
+
+            usernameInput.addEventListener('input', function() {
+                clearTimeout(usernameTimeout);
+                const username = this.value.trim();
+
+                if (username.length >= 3) {
+                    usernameTimeout = setTimeout(() => {
+                        const existingUser = auth.getUserByUsername(username);
+                        if (existingUser) {
+                            document.getElementById('usernameError').textContent = 'Username already taken';
+                        } else {
+                            document.getElementById('usernameError').textContent = '';
+                        }
+                    }, 500);
+                }
+            });
+
+            // Real-time email validation
+            const emailInput = document.getElementById('signupEmail');
+            let emailTimeout;
+
+            emailInput.addEventListener('input', function() {
+                clearTimeout(emailTimeout);
+                const email = this.value.trim();
+
+                if (email && Utils.validateEmail(email)) {
+                    emailTimeout = setTimeout(() => {
+                        const existingUser = auth.getUserByEmail(email);
+                        if (existingUser) {
+                            document.getElementById('emailError').textContent = 'Email already registered';
+                        } else {
+                            document.getElementById('emailError').textContent = '';
+                        }
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

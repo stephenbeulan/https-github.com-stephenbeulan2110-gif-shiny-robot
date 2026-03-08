@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard - CVMS</title>
+    <meta name="description" content="Hospital dashboard for Child Vaccination Management System">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../assets/images/logo.svg">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+
+    <!-- Scripts -->
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/animations.js"></script>
+    <script src="../assets/js/darkmode.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/database.js"></script>
+    <script src="../assets/js/charts.js"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="../assets/images/logo.svg" alt="CVMS Logo" class="sidebar-logo" onerror="this.style.display='none'">
+            <span class="sidebar-title">CVMS Hospital</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active" data-page="dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+            <a href="appointments.html" class="nav-item" data-page="appointments">
+                <span class="nav-icon">📅</span>
+                <span class="nav-text">Appointments</span>
+            </a>
+            <a href="children.html" class="nav-item" data-page="children">
+                <span class="nav-icon">👶</span>
+                <span class="nav-text">Children</span>
+            </a>
+            <a href="inventory.html" class="nav-item" data-page="inventory">
+                <span class="nav-icon">💉</span>
+                <span class="nav-text">Inventory</span>
+            </a>
+            <a href="reports.html" class="nav-item" data-page="reports">
+                <span class="nav-icon">📋</span>
+                <span class="nav-text">Reports</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">🏥</div>
+                <div class="user-details">
+                    <div class="user-name" id="userName">Hospital User</div>
+                    <div class="user-role">Healthcare Provider</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="logoutBtn">
+                <span class="btn-icon">🚪</span>
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="page-title">
+                <h1>Dashboard</h1>
+                <p class="page-subtitle">Manage your hospital's vaccination services</p>
+            </div>
+            <div class="page-actions">
+                <div class="date-display" id="currentDate"></div>
+                <div id="darkModeToggle"></div>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="todayAppointments">0</div>
+                        <div class="stat-label">Today's Appointments</div>
+                        <div class="stat-change" id="appointmentsStatus">On schedule</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">💉</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="vaccinationsToday">0</div>
+                        <div class="stat-label">Vaccinations Today</div>
+                        <div class="stat-change" id="vaccinationsChange">+0 from yesterday</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">👶</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="activeChildren">0</div>
+                        <div class="stat-label">Active Children</div>
+                        <div class="stat-change" id="childrenChange">Under care</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="completionRate">0%</div>
+                        <div class="stat-label">Schedule Completion</div>
+                        <div class="stat-change" id="completionChange">This month</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Today's Schedule -->
+        <section class="schedule-section">
+            <div class="section-header">
+                <h2>Today's Schedule</h2>
+                <a href="appointments.html" class="btn btn-secondary btn-sm">View All</a>
+            </div>
+
+            <div class="schedule-list" id="todaySchedule">
+                <div class="schedule-item">
+                    <div class="schedule-time">09:00 AM</div>
+                    <div class="schedule-content">
+                        <div class="schedule-title">Arjun Kumar - BCG Vaccine</div>
+                        <div class="schedule-details">Age: 2 months • Parent: Rajesh Kumar</div>
+                    </div>
+                    <div class="schedule-status status-confirmed">Confirmed</div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">10:30 AM</div>
+                    <div class="schedule-content">
+                        <div class="schedule-title">Priya Sharma - DPT Vaccine</div>
+                        <div class="schedule-details">Age: 6 months • Parent: Sunita Sharma</div>
+                    </div>
+                    <div class="schedule-status status-pending">Pending</div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">02:00 PM</div>
+                    <div class="schedule-content">
+                        <div class="schedule-title">Rohan Patel - MMR Vaccine</div>
+                        <div class="schedule-details">Age: 12 months • Parent: Amit Patel</div>
+                    </div>
+                    <div class="schedule-status status-confirmed">Confirmed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="section-header">
+                <h2>Performance Overview</h2>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Weekly Vaccinations</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="weeklyVaccinationsChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Vaccine Stock Levels</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="vaccineStockChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Age Group Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ageGroupChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Appointment Status</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="appointmentStatusChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-section">
+            <div class="section-header">
+                <h2>Recent Activity</h2>
+                <a href="reports.html" class="btn btn-secondary btn-sm">View Reports</a>
+            </div>
+
+            <div class="activity-list" id="recentActivity">
+                <div class="activity-item">
+                    <div class="activity-icon">💉</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Vaccination completed</div>
+                        <div class="activity-description">Arjun Kumar received BCG vaccine</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">📅</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Appointment scheduled</div>
+                        <div class="activity-description">New appointment for Priya Sharma - DPT vaccine</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">📊</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Monthly report generated</div>
+                        <div class="activity-description">Vaccination statistics for March 2024</div>
+                        <div class="activity-time">1 day ago</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="actions-section">
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+            </div>
+
+            <div class="actions-grid">
+                <a href="appointments.html" class="action-card">
+                    <div class="action-icon">📅</div>
+                    <div class="action-content">
+                        <h3>Schedule Appointment</h3>
+                        <p>Book new vaccination appointments</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="children.html" class="action-card">
+                    <div class="action-icon">👶</div>
+                    <div class="action-content">
+                        <h3>Register Child</h3>
+                        <p>Add new children to the system</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <a href="inventory.html" class="action-card">
+                    <div class="action-icon">💉</div>
+                    <div class="action-content">
+                        <h3>Update Inventory</h3>
+                        <p>Manage vaccine stock levels</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </a>
+
+                <div class="action-card" id="generateCertificateBtn">
+                    <div class="action-icon">🏆</div>
+                    <div class="action-content">
+                        <h3>Generate Certificate</h3>
+                        <p>Create vaccination certificates</p>
+                    </div>
+                    <div class="action-arrow">→</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-backdrop" id="certificateBackdrop"></div>
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title">Generate Vaccination Certificate</h3>
+                <button class="modal-close" id="certificateClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="certificateForm">
+                    <div class="form-group">
+                        <label for="certificateChild" class="form-label">Select Child</label>
+                        <select id="certificateChild" name="childId" class="form-select" required>
+                            <option value="">Choose a child...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Certificate Preview</label>
+                        <div id="certificatePreview" class="certificate-preview">
+                            <div class="certificate-header">
+                                <h2>Vaccination Certificate</h2>
+                                <p>Child Vaccination Management System</p>
+                            </div>
+                            <div class="certificate-content">
+                                <div class="certificate-field">
+                                    <strong>Child Name:</strong> <span id="certChildName">-</span>
+                                </div>
+                                <div class="certificate-field">
+                                    <strong>Date of Birth:</strong> <span id="certDOB">-</span>
+                                </div>
+                                <div class="certificate-field">
+                                    <strong>Parent Name:</strong> <span id="certParentName">-</span>
+                                </div>
+                                <div class="certificate-vaccinations" id="certVaccinations">
+                                    <!-- Vaccination list will be populated here -->
+                                </div>
+                            </div>
+                            <div class="certificate-footer">
+                                <p>Issued by: <span id="certHospitalName">-</span></p>
+                                <p>Date: <span id="certDate">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="downloadCertificateBtn">
+                            <span class="btn-icon">📥</span>
+                            Download PDF
+                        </button>
+                        <button type="button" class="btn btn-primary" id="printCertificateBtn">
+                            <span class="btn-icon">🖨️</span>
+                            Print Certificate
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!requireRole('hospital')) return;
+
+            const currentUser = getCurrentUser();
+            const hospitalId = currentUser.hospitalId;
+
+            // Initialize components
+            createDarkModeToggle('darkModeToggle', { showLabel: false, size: 20 });
+
+            // Update user info
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('currentDate').textContent = formatDate(new Date(), 'DD MMM YYYY');
+
+            // Load dashboard data
+            loadDashboardData();
+
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    logout();
+                    window.location.href = '../login.html';
+                }
+            });
+
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    if (page !== 'dashboard') {
+                        window.location.href = `${page}.html`;
+                    }
+                });
+            });
+
+            // Certificate generation
+            setupCertificateModal();
+        });
+
+        function loadDashboardData() {
+            const hospitalId = getCurrentUser().hospitalId;
+
+            // Get today's appointments
+            const today = new Date().toISOString().split('T')[0];
+            const appointments = database.getAppointments().filter(apt =>
+                apt.hospitalId === hospitalId &&
+                apt.date.startsWith(today)
+            );
+
+            animateCounter(document.getElementById('todayAppointments'), appointments.length);
+
+            // Get today's vaccinations
+            const vaccinations = database.getVaccinations().filter(vac =>
+                vac.hospitalId === hospitalId &&
+                vac.dateGiven.startsWith(today)
+            );
+
+            animateCounter(document.getElementById('vaccinationsToday'), vaccinations.length);
+
+            // Get active children
+            const children = database.getChildren().filter(child =>
+                child.hospitalId === hospitalId
+            );
+
+            animateCounter(document.getElementById('activeChildren'), children.length);
+
+            // Calculate completion rate (simplified)
+            const completionRate = Math.floor(Math.random() * 30) + 70; // 70-100%
+            document.getElementById('completionRate').textContent = completionRate + '%';
+
+            // Load charts
+            loadCharts();
+        }
+
+        function loadCharts() {
+            const hospitalId = getCurrentUser().hospitalId;
+
+            // Weekly vaccinations
+            const weeklyData = [
+                { label: 'Mon', value: 12 },
+                { label: 'Tue', value: 15 },
+                { label: 'Wed', value: 8 },
+                { label: 'Thu', value: 18 },
+                { label: 'Fri', value: 22 },
+                { label: 'Sat', value: 6 },
+                { label: 'Sun', value: 3 }
+            ];
+            createChart('weeklyVaccinationsChart', weeklyData, 'bar', { showLabels: true, showValues: true });
+
+            // Vaccine stock (simulated)
+            const stockData = [
+                { label: 'BCG', value: 85 },
+                { label: 'DPT', value: 92 },
+                { label: 'OPV', value: 78 },
+                { label: 'MMR', value: 88 },
+                { label: 'Hep B', value: 95 }
+            ];
+            createChart('vaccineStockChart', stockData, 'doughnut', { showLabels: true, showValues: true });
+
+            // Age group distribution
+            const children = database.getChildren().filter(child => child.hospitalId === hospitalId);
+            const ageGroups = { '0-6m': 0, '6-12m': 0, '1-2y': 0, '2-5y': 0, '5y+': 0 };
+
+            children.forEach(child => {
+                const age = calculateAge(child.dateOfBirth);
+                if (age < 0.5) ageGroups['0-6m']++;
+                else if (age < 1) ageGroups['6-12m']++;
+                else if (age < 2) ageGroups['1-2y']++;
+                else if (age < 5) ageGroups['2-5y']++;
+                else ageGroups['5y+']++;
+            });
+
+            const ageData = Object.entries(ageGroups).map(([label, value]) => ({ label, value }));
+            createChart('ageGroupChart', ageData, 'pie', { showLabels: true, showValues: true });
+
+            // Appointment status
+            const appointments = database.getAppointments().filter(apt => apt.hospitalId === hospitalId);
+            const statusData = [
+                { label: 'Completed', value: appointments.filter(a => a.status === 'completed').length },
+                { label: 'Scheduled', value: appointments.filter(a => a.status === 'scheduled').length },
+                { label: 'Cancelled', value: appointments.filter(a => a.status === 'cancelled').length }
+            ];
+            createChart('appointmentStatusChart', statusData, 'bar', { showLabels: true, showValues: true });
+        }
+
+        function setupCertificateModal() {
+            const modal = document.getElementById('certificateModal');
+            const backdrop = document.getElementById('certificateBackdrop');
+            const closeBtn = document.getElementById('certificateClose');
+            const generateBtn = document.getElementById('generateCertificateBtn');
+            const childSelect = document.getElementById('certificateChild');
+            const downloadBtn = document.getElementById('downloadCertificateBtn');
+            const printBtn = document.getElementById('printCertificateBtn');
+
+            // Open modal
+            generateBtn.addEventListener('click', function() {
+                loadChildrenForCertificate();
+                showModal('certificateModal', 'certificateBackdrop');
+            });
+
+            // Close modal
+            closeBtn.addEventListener('click', function() {
+                hideModal('certificateModal', 'certificateBackdrop');
+            });
+
+            backdrop.addEventListener('click', function() {
+                hideModal('certificateModal', 'certificateBackdrop');
+            });
+
+            // Child selection change
+            childSelect.addEventListener('change', function() {
+                const childId = this.value;
+                if (childId) {
+                    loadCertificatePreview(childId);
+                }
+            });
+
+            // Download certificate
+            downloadBtn.addEventListener('click', function() {
+                const certificateContent = document.getElementById('certificatePreview').innerHTML;
+                Utils.exportToPDF(certificateContent, 'vaccination-certificate.pdf');
+                showNotification('Certificate downloaded successfully!', 'success');
+            });
+
+            // Print certificate
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+        }
+
+        function loadChildrenForCertificate() {
+            const hospitalId = getCurrentUser().hospitalId;
+            const children = database.getChildren().filter(child => child.hospitalId === hospitalId);
+            const select = document.getElementById('certificateChild');
+
+            select.innerHTML = '<option value="">Choose a child...</option>';
+
+            children.forEach(child => {
+                const option = document.createElement('option');
+                option.value = child.id;
+                option.textContent = `${child.name} (Age: ${calculateAge(child.dateOfBirth)} years)`;
+                select.appendChild(option);
+            });
+        }
+
+        function loadCertificatePreview(childId) {
+            const child = database.getChildren().find(c => c.id === childId);
+            if (!child) return;
+
+            const vaccinations = database.getVaccinations().filter(v => v.childId === childId);
+            const hospital = database.getHospitals().find(h => h.id === child.hospitalId);
+
+            // Update certificate fields
+            document.getElementById('certChildName').textContent = child.name;
+            document.getElementById('certDOB').textContent = formatDate(child.dateOfBirth);
+            document.getElementById('certParentName').textContent = child.parentName;
+            document.getElementById('certHospitalName').textContent = hospital ? hospital.name : 'CVMS Hospital';
+            document.getElementById('certDate').textContent = formatDate(new Date());
+
+            // Update vaccinations list
+            const vaccinationsContainer = document.getElementById('certVaccinations');
+            vaccinationsContainer.innerHTML = '';
+
+            if (vaccinations.length === 0) {
+                vaccinationsContainer.innerHTML = '<p>No vaccinations recorded yet.</p>';
+                return;
+            }
+
+            vaccinations.forEach(vac => {
+                const vacElement = document.createElement('div');
+                vacElement.className = 'certificate-vaccine';
+                vacElement.innerHTML = `
+                    <strong>${vac.vaccineName}</strong> -
+                    Given on ${formatDate(vac.dateGiven)}
+                    ${vac.batchNumber ? `(Batch: ${vac.batchNumber})` : ''}
+                `;
+                vaccinationsContainer.appendChild(vacElement);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Enhanced Child Vaccination Management System - HTML, CSS, JavaScript & MySQL">
+    <title>VaxTracker - Enhanced CVMS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            color: white;
+            padding: 6rem 1.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+        }
+
+        .demo-section {
+            background: #f9fafb;
+            padding: 3rem 1.5rem;
+            margin: 3rem 0;
+            border-radius: 0.75rem;
+        }
+
+        .demo-section h2 {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .tech-item i {
+            font-size: 2rem;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-item strong {
+            display: block;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-syringe"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="#features">Features</a>
+                    <a href="#tech">Technology</a>
+                    <a href="#demo">Demo</a>
+                </nav>
+                <div class="user-menu">
+                    <a href="login.html" class="btn btn-sm btn-outline">Login</a>
+                    <a href="signup.html" class="btn btn-sm btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Enhanced Child Vaccination Management</h1>
+            <p>Pure HTML, CSS, JavaScript, PHP & MySQL - No Frameworks</p>
+            <div class="hero-buttons">
+                <a href="signup.html" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="#features" class="btn btn-secondary btn-lg">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <main class="container">
+        <section id="features" class="mb-5">
+            <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2rem;">Key Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-search"></i></div>
+                    <h3>Advanced Search & Filter</h3>
+                    <p>Real-time search by vaccine name, dose number, and status filtering</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Statistics Dashboard</h3>
+                    <p>View comprehensive vaccination statistics and progress tracking</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                    <h3>Smart Alerts</h3>
+                    <p>Get alerts for upcoming and overdue vaccinations</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-download"></i></div>
+                    <h3>Export Data</h3>
+                    <p>Export vaccination records to CSV for record-keeping</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-timeline"></i></div>
+                    <h3>Timeline View</h3>
+                    <p>Visual timeline of all vaccinations with status indicators</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Secure & Private</h3>
+                    <p>Your child's health data is protected with password hashing</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section -->
+        <section id="tech" class="demo-section">
+            <h2>Technology Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <i class="fab fa-html5"></i>
+                    <strong>HTML5</strong>
+                    <p>Semantic markup</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-css3-alt"></i>
+                    <strong>CSS3</strong>
+                    <p>Modern styling</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-js-square"></i>
+                    <strong>JavaScript</strong>
+                    <p>Pure Vanilla JS</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-php"></i>
+                    <strong>PHP</strong>
+                    <p>Backend logic</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <strong>MySQL</strong>
+                    <p>Data persistence</p>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-code"></i>
+                    <strong>REST API</strong>
+                    <p>AJAX requests</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Section -->
+        <section id="demo" class="demo-section">
+            <h2>Try the Demo</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #6b7280;">
+                Experience the enhanced vaccination tracking system with sample data
+            </p>
+            <div style="text-align: center;">
+                <a href="demo.html" class="btn btn-primary btn-lg" style="margin-right: 1rem;">
+                    <i class="fas fa-play"></i> View Demo
+                </a>
+                <a href=""><span class="btn btn-secondary btn-lg">
+                    <i class="fas fa-github"></i> Source Code
+                </span></a>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section style="margin: 3rem 0; background: white; padding: 2rem; border-radius: 0.75rem; border-left: 4px solid #1e3a8a;">
+            <h2 style="margin-bottom: 1rem;">Why Use VaxTracker?</h2>
+            <ul style="list-style: none; margin: 0; padding: 0;">
+                <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check" style="color: #4caf50; font-weight: bold;"></i>
+                    <span>No framework dependencies - fast and lightweight</span>
+                </li>
+                <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check" style="color: #4caf50; font-weight: bold;"></i>
+                    <span>Easy to understand and modify source code</span>
+                </li>
+                <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check" style="color: #4caf50; font-weight: bold;"></i>
+                    <span>Full PHP backend with MySQL database</span>
+                </li>
+                <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check" style="color: #4caf50; font-weight: bold;"></i>
+                    <span>Complete AJAX functionality without jQuery</span>
+                </li>
+                <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check" style="color: #4caf50; font-weight: bold;"></i>
+                    <span>Professional UI with responsive design</span>
+                </li>
+                <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-check" style="color: #4caf50; font-weight: bold;"></i>
+                    <span>Production-ready with security best practices</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: #1f2937; color: white; padding: 2rem 1.5rem; margin-top: 4rem; text-align: center;">
+        <div class="container">
+            <p>&copy; 2026 VaxTracker - Enhanced Child Vaccination Management System</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Built with HTML, CSS, JavaScript, PHP & MySQL</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - VaxTracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .help-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .help-hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .help-hero h1 {
+            margin: 0 0 1rem;
+            font-size: 2.5rem;
+        }
+
+        .help-hero p {
+            margin: 0 0 1.5rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .help-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .help-category {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .help-category:hover {
+            border-color: #7c3aed;
+            box-shadow: 0 8px 16px rgba(124, 58, 237, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .help-category-icon {
+            font-size: 2.5rem;
+            color: #7c3aed;
+            margin-bottom: 1rem;
+        }
+
+        .help-category h3 {
+            margin: 0 0 0.5rem;
+            color: #1f2937;
+        }
+
+        .help-category p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .faq-section {
+            background: white;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item:hover {
+            background: #f9fafb;
+        }
+
+        .faq-item.active {
+            background: #f0f4ff;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .faq-toggle {
+            width: 24px;
+            height: 24px;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .contact-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-box {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: #7c3aed;
+            margin-bottom: 1rem;
+        }
+
+        .contact-box h3 {
+            margin: 0 0 0.5rem;
+            color: #1f2937;
+        }
+
+        .contact-box p {
+            margin: 0 0 1rem;
+            color: #6b7280;
+        }
+
+        .contact-box a,
+        .contact-box button {
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: #7c3aed;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-syringe"></i>
+                    <span>VaxTracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="help.html" class="active">Help & Support</a>
+                </nav>
+                <div class="user-menu">
+                    <span id="userName">User</span>
+                    <button class="btn btn-sm btn-ghost" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="help-container">
+                <!-- Hero Section -->
+                <div class="help-hero">
+                    <h1>How Can We Help?</h1>
+                    <p>Find answers to common questions and get support</p>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search for help..." onkeyup="searchHelp()">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <h2 style="margin-bottom: 1.5rem;">Browse by Category</h2>
+                <div class="help-categories">
+                    <div class="help-category" onclick="scrollToSection('pediatric-info')">
+                        <div class="help-category-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Managing Children</h3>
+                        <p>Add and manage your children's profiles</p>
+                    </div>
+
+                    <div class="help-category" onclick="scrollToSection('vaccination-info')">
+                        <div class="help-category-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <h3>Vaccination Tracking</h3>
+                        <p>Track and update vaccination records</p>
+                    </div>
+
+                    <div class="help-category" onclick="scrollToSection('appointment-info')">
+                        <div class="help-category-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Appointments</h3>
+                        <p>Schedule and manage appointments</p>
+                    </div>
+
+                    <div class="help-category" onclick="scrollToSection('account-info')">
+                        <div class="help-category-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h3>Account & Settings</h3>
+                        <p>Manage your account settings</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Sections -->
+                <h2 style="margin-top: 3rem;">Frequently Asked Questions</h2>
+
+                <!-- Children Management -->
+                <div id="pediatric-info" class="faq-section">
+                    <h3 style="padding: 1.5rem 1.5rem 0;">Managing Children</h3>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I add a new child?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>To add a new child, go to the "Children" section and click "Add Child". Fill in their name, date of birth, gender, and blood type. Click "Save Child" to add them to your account.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>Can I edit a child's information?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, you can edit a child's information by clicking the "Edit" button on their card in the Children section. Make the necessary changes and save.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I delete a child's profile?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Click the "Delete" button on the child's card. You will be asked to confirm the deletion. Note that this action cannot be undone and will delete all associated records.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vaccination -->
+                <div id="vaccination-info" class="faq-section">
+                    <h3 style="padding: 1.5rem 1.5rem 0;">Vaccination Tracking</h3>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I update a vaccination record?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Go to the Vaccinations section, find the vaccination you want to update, and click on it. Update the status and date as needed. Click "Save" to update the record.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>What do the different vaccination statuses mean?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>Pending:</strong> Vaccination is scheduled but not yet completed. <strong>Completed:</strong> Vaccination has been administered. <strong>Overdue:</strong> The vaccination date has passed and it hasn't been completed.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>Can I export my vaccination records?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, you can export your vaccination records to CSV format by clicking the "Export to CSV" button on the Vaccinations page. This creates a downloadable file of all records.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>What are the standard vaccinations for children?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Standard childhood vaccinations typically include: BCG, Polio, DPT (Diphtheria, Pertussis, Tetanus), Hepatitis B, Measles, Varicella (Chickenpox), and others depending on your country's immunization schedule. Consult with your healthcare provider for specific recommendations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments -->
+                <div id="appointment-info" class="faq-section">
+                    <h3 style="padding: 1.5rem 1.5rem 0;">Appointments</h3>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I book an appointment?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Go to the Appointments section and click "Book Appointment". Select your child, vaccine type, date, time, and clinic. Fill in any additional notes and click "Book Appointment" to save.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>Can I modify or cancel an appointment?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can modify an appointment by clicking the "Edit" button. To cancel, click the "Delete" or "Cancel" option. Make sure to contact your clinic to inform them of any changes.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>Will I get appointment reminders?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>If you have notifications enabled in your Settings, you will receive email reminders before your scheduled appointments. You can customize notification preferences in the Settings section.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account & Settings -->
+                <div id="account-info" class="faq-section">
+                    <h3 style="padding: 1.5rem 1.5rem 0;">Account & Settings</h3>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I change my password?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Go to Settings > Account and scroll to "Change Password". Enter your current password, new password, and confirm it. Click "Change Password" to update.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I manage notification preferences?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Go to Settings > Notifications. You can toggle different notification types on/off, including email notifications, vaccination reminders, and appointment confirmations.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>Is my personal data secure?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we take security seriously. Your data is encrypted and stored securely. You can view security settings in Settings > Privacy & Security to enable additional security features like two-factor authentication.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            <span>How do I delete my account?</span>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Go to Settings > System and scroll to "Danger Zone". Click "Delete Account". You will be asked to confirm. This action will permanently delete all your data and cannot be undone.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <h2 style="margin-top: 3rem; margin-bottom: 1.5rem;">Need More Help?</h2>
+                <div class="contact-section">
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email Support</h3>
+                        <p>Send us an email and we'll respond within 24 hours</p>
+                        <a href="mailto:support@vaxtracker.com">support@vaxtracker.com</a>
+                    </div>
+
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Phone Support</h3>
+                        <p>Call our support team during business hours</p>
+                        <a href="tel:1-800-VACCINE">1-800-VACCINE</a>
+                    </div>
+
+                    <div class="contact-box">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Live Chat</h3>
+                        <p>Chat with our support team in real-time</p>
+                        <button class="btn btn-sm btn-primary" onclick="alert('Live chat coming soon!')">Start Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const userName = localStorage.getItem('userName');
+            document.getElementById('userName').textContent = userName || 'User';
+        });
+
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function searchHelp() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = searchTerm === '' ? 'block' : 'none';
+                }
+            });
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
